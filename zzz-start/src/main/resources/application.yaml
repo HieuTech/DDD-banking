@@ -1,0 +1,5 @@
+server:
+  port: 1125
+  tomcat:
+    thread:
+      max: 10
