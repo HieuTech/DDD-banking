@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>vetautet.com.example</groupId>
-        <artifactId>vetautet</artifactId>
+        <groupId>banking.rosa</groupId>
+        <artifactId>banking</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -13,7 +13,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>vetautet.com.example</groupId>
+            <groupId>banking.rosa</groupId>
             <artifactId>zzz-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
