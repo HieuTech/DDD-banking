@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ddd-mysql
+    env_file:
+      - .env.test   # fallback: .env.test nếu ENV không set
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - ddd_mysql_data:/var/lib/mysql
+    command: ["--character-set-server=utf8mb4","--collation-server=utf8mb4_unicode_ci"]
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ddd-app
+    depends_on:
+      - mysql
+    env_file:
+      - .env.test
+    # set spring profile via env var
+    environment:
+      - SPRING_PROFILES_ACTIVE="${SPRING_PROFILE:-test}"
+      # optional: override DB props via env
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    volumes:
+      # mount external config files into /config so Spring Boot picks them up
+      - ./application-${SPRING_PROFILE:-test}.yml:/config/application-${SPRING_PROFILE:-test}.yml:ro
+    restart: unless-stopped
+
+volumes:
+  ddd_mysql_data:

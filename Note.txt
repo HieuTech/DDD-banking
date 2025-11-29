@@ -1,0 +1,19 @@
+docker pull mysql:8.0
+
+docker run -d \
+  --name ddd-mysql \
+  -e MYSQL_ROOT_PASSWORD=rootpass \
+  -e MYSQL_DATABASE=write \
+  -e MYSQL_USER=server_root \
+  -e MYSQL_PASSWORD=ddd@banking \
+  -p 3306:3306 \
+  -v ddd_mysql_data:/var/lib/mysql \
+  mysql:8.0 \
+  --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+docker logs ddd-mysql --tail 50
+
+docker exec -it ddd-mysql
+
+
+docker compose --env-file .env.test up -d --build

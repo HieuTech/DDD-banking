@@ -1,0 +1,21 @@
+server:
+  port: ${SERVER_PORT}
+
+# application-prod.yml
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=true&serverTimezone=UTC&characterEncoding=utf8
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate   # production: validate hoặc none
+    show-sql: false
+
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+
